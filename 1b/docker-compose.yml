@@ -5,7 +5,7 @@ services:
     image: caddy:2.7-alpine
     container_name: caddy
     ports:
-      - '8080:80'
+      - '8082:80'
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
     depends_on:
@@ -30,7 +30,7 @@ services:
     image: caddy:2.7-alpine
     container_name: sc-deployment-server
     ports:
-      - '8081:80'
+      - '8083:80'
     volumes:
       - ./sc-deployment-server/Caddyfile:/etc/caddy/Caddyfile
       # serve deployment.json

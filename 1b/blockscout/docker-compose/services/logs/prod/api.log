@@ -1,0 +1,4 @@
+2025-09-08T13:37:50.181 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-08T13:37:50.181 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-08T13:55:03.691 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-08T13:55:03.691 application=api [debug] Current API rate limit by IP nil reqs/sec

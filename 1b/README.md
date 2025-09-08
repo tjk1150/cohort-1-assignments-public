@@ -1,6 +1,7 @@
 # Local development environment setup
 
 Your goal is to successfully set up a local environment running on Docker Compose, comprising of:
+
 - **caddy**: reverse proxy. You need to route origins of exposed ports inside Docker to a single origin with the same port. For example, if your EVM node's RPC service is running at localhost:5000 and explorer at localhost:6000, you want to route them as https://myorigin.com/rpc and https://myorigin.com/explorer.
 - **ngrok**: tunnel. Sign up for ngrok and go to https://dashboard.ngrok.com/domains and get your own domain. Use the auth token and domain to tunnel your local environment to the Internet.
 - **Smart contracts deployer**: this is an ephemeral container that `git clone`s your assignment 1A and runs the deployment script against your local EVM node, and then shuts down.
