@@ -1,11 +1,11 @@
-version: "3.8"
+version: '3.8'
 
 services:
   caddy:
     image: caddy:2.7-alpine
     container_name: caddy
     ports:
-      - "8080:80"
+      - '8080:80'
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
     depends_on:
@@ -13,7 +13,7 @@ services:
     networks:
       - geth-network
   sc-deployer:
-    image: ghcr.io/hell-month/foundry:latest
+    build: ./sc-deployer
     platform: linux/arm64
     container_name: sc-deployer
     user: root
@@ -21,7 +21,7 @@ services:
       - ./sc-deployer:/workspace
       - ./geth-init:/shared
     working_dir: /workspace
-    entrypoint: ["/bin/sh", "/workspace/entrypoint.sh"]
+    entrypoint: ['/bin/sh', '/workspace/entrypoint.sh']
     depends_on:
       - geth
     networks:
@@ -30,7 +30,7 @@ services:
     image: caddy:2.7-alpine
     container_name: sc-deployment-server
     ports:
-      - "8081:80"
+      - '8081:80'
     volumes:
       - ./sc-deployment-server/Caddyfile:/etc/caddy/Caddyfile
       # serve deployment.json
@@ -43,10 +43,10 @@ services:
     image: ethereum/client-go:v1.15.0
     container_name: geth
     ports:
-      - "8545:8545"  # HTTP RPC
-      - "8546:8546"  # WebSocket RPC
-      - "30303:30303"  # P2P
-      - "30303:30303/udp"  # P2P UDP
+      - '8545:8545' # HTTP RPC
+      - '8546:8546' # WebSocket RPC
+      - '30303:30303' # P2P
+      - '30303:30303/udp' # P2P UDP
     volumes:
       - geth-data:/root/.ethereum
       - ./geth:/geth
@@ -80,7 +80,7 @@ services:
       - ./geth-init:/scripts
       - geth-data:/root/.ethereum
       - ./geth-init:/shared
-    entrypoint: ["/bin/sh", "/scripts/entrypoint.sh"]
+    entrypoint: ['/bin/sh', '/scripts/entrypoint.sh']
     depends_on:
       - geth
     networks:

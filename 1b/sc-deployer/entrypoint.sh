@@ -19,7 +19,7 @@ rm -rf /workspace/cohort-1-assignments-public
 cd /workspace
 
 echo "📥 Cloning repository..."
-git clone https://github.com/9oelm/cohort-1-assignments-public.git
+git clone https://github.com/tjk1150/cohort-1-assignments-public.git
 cd cohort-1-assignments-public
 
 # Navigate to the 1a directory
@@ -37,7 +37,7 @@ forge build
 echo "🚀 Deploying MiniAMM contracts..."
 forge script script/MiniAMM.s.sol:MiniAMMScript \
     --rpc-url http://geth:8545 \
-    --private-key be44593f36ac74d23ed0e80569b672ac08fa963ede14b63a967d92739b0c8659 \
+    --private-key 31e71cd8740bb753364962d4c13797ae8388d5429fe59aa3f69339f992b512a0 \
     --broadcast
 
 echo "✅ Deployment completed!"

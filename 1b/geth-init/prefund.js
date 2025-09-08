@@ -1,8 +1,8 @@
 const from = eth.accounts[0];
-const contractDeployer = "0x404fa3f0Acf620e3d2A3c6aa80E27b07C830EB5a";
+const contractDeployer = '0xAcC8C8bBE159061eA5A8B004aA35844839898a2F'; // 내 test account contract 주소
 eth.sendTransaction({
   from: from,
   to: contractDeployer,
-  value: web3.toWei(100, "ether"),
+  value: web3.toWei(100, 'ether'),
 });
-// PK: be44593f36ac74d23ed0e80569b672ac08fa963ede14b63a967d92739b0c8659
+// PK: 31e71cd8740bb753364962d4c13797ae8388d5429fe59aa3f69339f992b512a0 // 내 test account pk

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.30;
+pragma solidity ^0.8.30; // 13 으로 변경?
 
 import {IMiniAMM, IMiniAMMEvents} from "./IMiniAMM.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
