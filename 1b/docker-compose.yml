@@ -85,15 +85,67 @@ services:
       - geth
     networks:
       - geth-network
-  # graph-ipfs:
-  # graph-postgres:
-  # graph-redis:
-  # graph-node:
+  graph-ipfs:
+    image: ipfs/kubo:latest
+    container_name: graph-ipfs
+    ports:
+      - '5001:5001' # host에서 graph-cli가 접근해야 하므로 노출
+    command: ['daemon', '--migrate=true']
+    volumes:
+      - graph-ipfs-data:/data/ipfs
+    networks:
+      - geth-network
+
+  graph-postgres:
+    image: postgres:14
+    container_name: graph-postgres
+    environment:
+      POSTGRES_USER: graph
+      POSTGRES_PASSWORD: letmein
+      POSTGRES_DB: graph
+      POSTGRES_INITDB_ARGS: '--encoding=UTF8 --lc-collate=C --lc-ctype=C'
+    volumes:
+      - graph-pg-data:/var/lib/postgresql/data
+    networks:
+      - geth-network
+
+  graph-redis:
+    image: redis:7-alpine
+    container_name: graph-redis
+    command: ['redis-server', '--appendonly', 'yes']
+    networks:
+      - geth-network
+
+  graph-node:
+    image: graphprotocol/graph-node:v0.33.0
+    platform: linux/amd64
+    container_name: graph-node
+    depends_on:
+      - graph-postgres
+      - graph-ipfs
+      - geth
+    environment:
+      postgres_host: graph-postgres
+      postgres_user: graph
+      postgres_pass: letmein
+      postgres_db: graph
+      ipfs: http://graph-ipfs:5001
+      ethereum: dev:http://geth:8545
+      RUST_LOG: info
+      GRAPH_LOG: info
+    ports:
+      - '8000:8000' # GraphQL + GraphiQL
+      - '8020:8020' # graph-cli (admin RPC)
+      - '8001:8001' # status (옵션)
+    networks:
+      - geth-network
 
   # blockscout: should be another docker-compose.yml file from https://github.com/blockscout/blockscout/tree/master/docker-compose. Don't create a container in this file.
 
 volumes:
   geth-data:
+  graph-ipfs-data:
+  graph-pg-data:
 
 networks:
   geth-network:
