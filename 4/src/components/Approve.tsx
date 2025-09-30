@@ -37,7 +37,7 @@ export default function Approve() {
 
     try {
       setPending(true);
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const signer = await provider.getSigner();
 
       // Approve Token X
@@ -61,8 +61,9 @@ export default function Approve() {
       await refetch();
       setAmountX("");
       setAmountY("");
-    } catch (e: any) {
-      setError(e?.message || "승인에 실패했습니다.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg || "승인에 실패했습니다.");
     } finally {
       setPending(false);
     }

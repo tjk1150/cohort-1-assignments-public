@@ -46,7 +46,7 @@ export default function Liquidity() {
 
     try {
       setPendingAdd(true);
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const signer = await provider.getSigner();
       const mini = MiniAMM__factory.connect(contracts.miniAmm, signer);
 
@@ -57,8 +57,9 @@ export default function Liquidity() {
       await b.refetch();
       setXIn("");
       setYIn("");
-    } catch (e: any) {
-      setErrorAdd(e?.message || "유동성 추가에 실패했습니다.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setErrorAdd(msg || "유동성 추가에 실패했습니다.");
     } finally {
       setPendingAdd(false);
     }
@@ -77,7 +78,7 @@ export default function Liquidity() {
 
     try {
       setPendingRemove(true);
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const signer = await provider.getSigner();
       const mini = MiniAMM__factory.connect(contracts.miniAmm, signer);
 
@@ -87,8 +88,9 @@ export default function Liquidity() {
       await tx.wait();
       await b.refetch();
       setLpBurn("");
-    } catch (e: any) {
-      setErrorRemove(e?.message || "유동성 제거에 실패했습니다.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setErrorRemove(msg || "유동성 제거에 실패했습니다.");
     } finally {
       setPendingRemove(false);
     }

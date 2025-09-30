@@ -68,7 +68,7 @@ export default function Swap() {
 
     try {
       setPending(true);
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const signer = await provider.getSigner();
       const mini = MiniAMM__factory.connect(contracts.miniAmm, signer);
 
@@ -84,8 +84,9 @@ export default function Swap() {
 
       await b.refetch();
       setSellAmount("");
-    } catch (e: any) {
-      setError(e?.message || "스왑에 실패했습니다.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg || "스왑에 실패했습니다.");
     } finally {
       setPending(false);
     }
@@ -99,7 +100,7 @@ export default function Swap() {
         <select
           className="border rounded px-2 py-1 text-sm"
           value={dir}
-          onChange={(e) => setDir(e.target.value as any)}
+          onChange={(e) => setDir(e.target.value as "XtoY" | "YtoX")}
           disabled={pending || status !== "connected"}
         >
           <option value="XtoY">Sell X → Buy Y</option>

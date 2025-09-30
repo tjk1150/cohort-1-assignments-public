@@ -57,7 +57,7 @@ export function useBalances() {
 
     setState((s) => ({ ...s, loading: true, error: undefined }));
     try {
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const runner: ContractRunner = provider; // read-only
 
       const mini = MiniAMM__factory.connect(contracts.miniAmm, runner);
@@ -92,8 +92,9 @@ export function useBalances() {
         tokenXAllowance: xAllow,
         tokenYAllowance: yAllow,
       });
-    } catch (e: any) {
-      setState((s) => ({ ...s, loading: false, error: e?.message || "Failed to load balances" }));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setState((s) => ({ ...s, loading: false, error: msg || "Failed to load balances" }));
     }
   }, [isReady, address]);
 

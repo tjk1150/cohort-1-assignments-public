@@ -40,7 +40,7 @@ export default function Mint() {
 
     try {
       setPending(true);
-      const provider = new BrowserProvider((window as any).ethereum);
+      const provider = new BrowserProvider((await import("@/lib/utils")).getInjectedProvider());
       const signer = await provider.getSigner();
       const token = MockERC20__factory.connect(tokenAddr, signer);
 
@@ -50,8 +50,9 @@ export default function Mint() {
       await tx.wait();
       await refetch();
       setAmount("");
-    } catch (e: any) {
-      setError(e?.message || "민트에 실패했습니다.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setError(msg || "민트에 실패했습니다.");
     } finally {
       setPending(false);
     }
